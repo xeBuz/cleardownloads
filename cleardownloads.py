@@ -7,7 +7,7 @@ from os.path import isfile, join, expanduser, exists
 from datetime import datetime, timedelta
 from gi.repository import Notify
 
-conf_days = 60
+conf_days = 30
 conf_dir = "/Downloads/"
 conf_dest_dir =  "Old_Downloads/"
 
@@ -28,11 +28,14 @@ def seach_files():
 		t = (timedelta(seconds=now-last_access).days) 
 		Notify.init("Downloads directory")
 		if t > conf_days:
-			message=Notify.Notification.new("Cleaning downloads directory", 
-					"Moving " + f,"dialog-information")
-			message.show ()
-			time.sleep(3)
-			rename(download_dir+f, copy_dir+f)
+			move_file(f, download_dir, copy_dir)
+
+def move_file(f, dir, dest):
+	message=Notify.Notification.new("Cleaning downloads directory", 
+			"Moving " + f,"dialog-information")
+	message.show ()
+	time.sleep(3)
+	rename(dir+f, dest+f)
 
 def load_conf():
 	config = configparser.ConfigParser()
