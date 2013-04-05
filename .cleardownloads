@@ -1,0 +1,4 @@
+[OPTIONS]
+Days = 60
+DownloadDirectory = "Downloads"
+DestinationDirectory = "Old_Downloads"
