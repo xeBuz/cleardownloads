@@ -11,7 +11,6 @@ conf_days = 60
 conf_dir = "/Downloads/"
 conf_dest_dir =  "Old_Downloads/"
 
-
 def seach_files():
 	files = []
 	download_dir = expanduser("~") + conf_dir
@@ -35,7 +34,6 @@ def seach_files():
 			time.sleep(3)
 			rename(download_dir+f, copy_dir+f)
 
-
 def load_conf():
 	config = configparser.ConfigParser()
 	config.read(expanduser("~") + ".cleardownloads")
@@ -45,14 +43,12 @@ def load_conf():
 		conf_dir = config['OPTIONS']['DownloadDirectory']
 		conf_dest_dir = config['OPTIONS']['DestinationDirectory']
 
-
 def validate_ini(f):
 	return False
 
 def create_dest_dir(dir):
 	if not exists(dir):
 		makedirs(dir)
-
 
 if __name__ == "__main__":
 	load_conf()
