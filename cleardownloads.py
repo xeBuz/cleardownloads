@@ -2,29 +2,30 @@
 # -*- coding: utf-8 -*- 
 
 import sys, time, configparser
-from os import listdir, stat
-from os.path import isfile, join, expanduser
+from os import listdir, stat, rename, makedirs
+from os.path import isfile, join, expanduser, exists
 from datetime import datetime, timedelta
-from shutil import copy
 from gi.repository import Notify
 
 conf_days = 60
 conf_dir = "/Downloads/"
-conf_dest_dir =  "/Old_Downloads/"
+conf_dest_dir =  "Old_Downloads/"
 
 
 def seach_files():
 	files = []
 	download_dir = expanduser("~") + conf_dir
 	copy_dir = download_dir + conf_dest_dir
- 
+
+	create_dest_dir(copy_dir)	
+
 	for f in listdir(download_dir):
 		if isfile(join(download_dir,f)):
-			files.append(download_dir + f)
+			files.append(f)
 
 	now = time.mktime(time.localtime())
 	for f in files:	
-		last_access = time.mktime(time.gmtime(stat(f).st_atime))
+		last_access = time.mktime(time.gmtime(stat( download_dir + f).st_atime))
 		t = (timedelta(seconds=now-last_access).days) 
 		Notify.init("Downloads directory")
 		if t > conf_days:
@@ -32,7 +33,7 @@ def seach_files():
 					"Moving " + f,"dialog-information")
 			message.show ()
 			time.sleep(3)
-			copy(f,copy_dir)
+			rename(download_dir+f, copy_dir+f)
 
 
 def load_conf():
@@ -47,6 +48,10 @@ def load_conf():
 
 def validate_ini(f):
 	return False
+
+def create_dest_dir(dir):
+	if not exists(dir):
+		makedirs(dir)
 
 
 if __name__ == "__main__":
