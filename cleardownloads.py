@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python 
 # -*- coding: utf-8 -*- 
 
 import sys, time, configparser
@@ -39,7 +39,7 @@ def move_file(f, dir, dest):
 
 def load_conf():
 	config = configparser.ConfigParser()
-	config.read(expanduser("~") + ".cleardownloads")
+	config.read(expanduser("~") + ".cleardownloads.cfg")
 	
 	if validate_ini(config):
 		conf_days = int(config['OPTIONS']['Days'])
